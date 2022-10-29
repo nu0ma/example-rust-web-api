@@ -1,8 +1,5 @@
-use crate::domain::user::User;
+use crate::{domain::user::User, gateway::user_gateway::get_user};
 
 pub fn get_user_usecase() -> User {
-    User {
-        id: 1,
-        name: String::from("test user"),
-    }
+    get_user()
 }

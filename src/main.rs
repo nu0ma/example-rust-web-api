@@ -2,6 +2,8 @@ use actix_web::{App, HttpServer};
 use rest::user::get_user;
 
 mod domain;
+mod driver;
+mod gateway;
 mod rest;
 mod usecase;
 
