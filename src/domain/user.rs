@@ -2,12 +2,11 @@
 pub struct User {
     pub id: u32,
     pub name: String,
-    pub age: u32,
+    pub organization_id: OrganizationId,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy)]
-
-pub struct Id(pub u32);
+#[derive(Debug, PartialEq, Eq, Clone)]
+pub struct OrganizationId(pub String);
 
 #[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Users {
