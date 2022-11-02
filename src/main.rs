@@ -4,6 +4,7 @@ use rest::user::get_user;
 mod domain;
 mod driver;
 mod gateway;
+mod port;
 mod rest;
 mod usecase;
 

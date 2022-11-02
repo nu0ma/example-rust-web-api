@@ -1,9 +1,9 @@
 use actix_web::{get, HttpResponse, Responder};
 
-use crate::usecase::user_usecase::get_user_usecase;
+use crate::{domain::user::Id, usecase};
 
-#[get("/user")]
-async fn get_user() -> impl Responder {
-    let result = get_user_usecase();
-    HttpResponse::Ok().body(format!("{}", result.name))
+#[get("v1/users")]
+pub async fn get_user() -> impl Responder {
+    // let response = usecase::user::get_users(todo!(), todo!());
+    HttpResponse::Ok()
 }

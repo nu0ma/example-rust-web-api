@@ -5,5 +5,9 @@ edition = "2021"
 
 [dependencies]
 actix-web = "4.2.1"
+anyhow = "1.0.66"
+async-trait = "0.1.58"
+mry = "0.2.5"
+tokio = { version = "1.21.2", features = ["full"]}
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
