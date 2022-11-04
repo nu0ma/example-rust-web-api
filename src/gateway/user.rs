@@ -1,5 +1,5 @@
 use crate::{
-    domain::user::{OrganizationId, User, Users},
+    domain::user::{Member, OrganizationId, Users},
     driver,
     port::user::UserPort,
 };
@@ -14,7 +14,7 @@ impl UserPort for UserGateway {
         Ok(Users {
             users: response
                 .into_iter()
-                .map(|user| User {
+                .map(|user| Member {
                     id: user.id,
                     name: user.name,
                     organization_id: OrganizationId(user.organization_id),
@@ -27,7 +27,7 @@ impl UserPort for UserGateway {
 #[cfg(test)]
 mod test {
     use crate::{
-        domain::user::{OrganizationId, User, Users},
+        domain::user::{Member, OrganizationId, Users},
         driver::{self, db_driver::mock_find_users_for_organization_id, model::UserModel},
     };
 
@@ -36,22 +36,21 @@ mod test {
     #[tokio::test]
     #[mry::lock(driver::db_driver::find_users_for_organization_id)]
     async fn test_get_users() {
-        let uuid = "C23DED40-F7BD-47B5-8A18-D2E5B48505A0".to_string();
-        let organization_id = OrganizationId(uuid.clone());
+        let organization_id = OrganizationId(1);
 
         let expected = Users {
             users: vec![
-                User {
+                Member {
                     id: 1,
                     name: "john".to_string(),
                     organization_id: organization_id.clone(),
                 },
-                User {
+                Member {
                     id: 2,
                     name: "andy".to_string(),
                     organization_id: organization_id.clone(),
                 },
-                User {
+                Member {
                     id: 3,
                     name: "numa".to_string(),
                     organization_id: organization_id.clone(),
@@ -64,17 +63,17 @@ mod test {
                 UserModel {
                     id: 1,
                     name: "john".to_string(),
-                    organization_id: uuid.clone(),
+                    organization_id: 1,
                 },
                 UserModel {
                     id: 2,
                     name: "andy".to_string(),
-                    organization_id: uuid.clone(),
+                    organization_id: 1,
                 },
                 UserModel {
                     id: 3,
                     name: "numa".to_string(),
-                    organization_id: uuid.clone(),
+                    organization_id: 1,
                 },
             ])
         });

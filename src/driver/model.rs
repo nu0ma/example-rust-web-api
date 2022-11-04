@@ -1,6 +1,8 @@
-#[derive(Debug, Clone)]
+use sqlx::FromRow;
+
+#[derive(Debug, Clone, PartialEq, FromRow)]
 pub struct UserModel {
-    pub id: u32,
+    pub id: i32,
     pub name: String,
-    pub organization_id: String,
+    pub organization_id: i32,
 }

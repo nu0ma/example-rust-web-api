@@ -1,5 +1,5 @@
 use crate::{
-    domain::user::{OrganizationId, User, Users},
+    domain::user::{Member, OrganizationId, Users},
     port::user::UserPort,
 };
 
@@ -10,7 +10,7 @@ pub async fn get_users(id: OrganizationId, port: impl UserPort) -> anyhow::Resul
 #[cfg(test)]
 mod test {
     use crate::{
-        domain::user::{OrganizationId, User},
+        domain::user::{Member, OrganizationId},
         port::user::MockUserPort,
     };
 
@@ -20,7 +20,7 @@ mod test {
     async fn test_get_users() {
         let expected = Users { users: vec![] };
 
-        let id = OrganizationId("uuid1".to_string());
+        let id = OrganizationId(22);
 
         let mut user_port = MockUserPort::default();
         user_port
