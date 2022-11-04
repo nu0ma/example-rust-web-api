@@ -28,7 +28,7 @@ impl UserPort for UserGateway {
 mod test {
     use crate::{
         domain::member::{Member, Members, OrganizationId},
-        driver::{self, db_driver::mock_find_users_for_organization_id, model::UserModel},
+        driver::{self, db_driver::mock_find_users_for_organization_id, model::MemberModel},
     };
 
     use super::*;
@@ -60,17 +60,17 @@ mod test {
 
         mock_find_users_for_organization_id(organization_id.clone()).returns_with(move |_| {
             Ok(vec![
-                UserModel {
+                MemberModel {
                     id: 1,
                     name: "john".to_string(),
                     organization_id: 1,
                 },
-                UserModel {
+                MemberModel {
                     id: 2,
                     name: "andy".to_string(),
                     organization_id: 1,
                 },
-                UserModel {
+                MemberModel {
                     id: 3,
                     name: "numa".to_string(),
                     organization_id: 1,

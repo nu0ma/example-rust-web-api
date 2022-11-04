@@ -1,13 +1,6 @@
 use actix_web::{App, HttpServer};
-use rest::member::get_users;
+use app::rest::member::get_users;
 use tracing::Level;
-
-mod domain;
-mod driver;
-mod gateway;
-mod port;
-mod rest;
-mod usecase;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
