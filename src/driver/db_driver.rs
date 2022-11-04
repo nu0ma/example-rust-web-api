@@ -1,8 +1,7 @@
 use anyhow::Ok;
-use sqlx::{pool, postgres::PgPoolOptions};
-use tracing::info;
+use sqlx::postgres::PgPoolOptions;
 
-use crate::domain::user::OrganizationId;
+use crate::domain::member::OrganizationId;
 
 use super::model::UserModel;
 

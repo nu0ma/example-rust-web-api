@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize)]
 pub struct Member {
@@ -11,6 +11,6 @@ pub struct Member {
 pub struct OrganizationId(pub i32);
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize)]
-pub struct Users {
+pub struct Members {
     pub users: Vec<Member>,
 }

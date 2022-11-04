@@ -1,17 +1,17 @@
 use crate::{
-    domain::user::{Member, OrganizationId, Users},
+    domain::member::{Member, Members, OrganizationId},
     driver,
-    port::user::UserPort,
+    port::member::UserPort,
 };
 
 pub struct UserGateway;
 
 #[async_trait::async_trait]
 impl UserPort for UserGateway {
-    async fn get_users_for_id(&self, organization_id: OrganizationId) -> anyhow::Result<Users> {
+    async fn get_users_for_id(&self, organization_id: OrganizationId) -> anyhow::Result<Members> {
         let response = driver::db_driver::find_users_for_organization_id(organization_id).await?;
 
-        Ok(Users {
+        Ok(Members {
             users: response
                 .into_iter()
                 .map(|user| Member {
@@ -27,7 +27,7 @@ impl UserPort for UserGateway {
 #[cfg(test)]
 mod test {
     use crate::{
-        domain::user::{Member, OrganizationId, Users},
+        domain::member::{Member, Members, OrganizationId},
         driver::{self, db_driver::mock_find_users_for_organization_id, model::UserModel},
     };
 
@@ -38,7 +38,7 @@ mod test {
     async fn test_get_users() {
         let organization_id = OrganizationId(1);
 
-        let expected = Users {
+        let expected = Members {
             users: vec![
                 Member {
                     id: 1,

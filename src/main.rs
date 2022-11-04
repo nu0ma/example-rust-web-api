@@ -1,5 +1,5 @@
 use actix_web::{App, HttpServer};
-use rest::user::get_users;
+use rest::member::get_users;
 use tracing::Level;
 
 mod domain;
