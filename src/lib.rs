@@ -22,3 +22,9 @@ pub mod driver {
 pub mod domain {
     pub mod member;
 }
+
+pub mod utils {
+    pub mod connection_pool;
+    pub mod log;
+    pub mod set_db;
+}
