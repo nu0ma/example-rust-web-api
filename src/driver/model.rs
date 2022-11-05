@@ -6,3 +6,6 @@ pub struct MemberModel {
     pub name: String,
     pub organization_id: i32,
 }
+
+#[derive(FromRow)]
+pub struct OrganizationIdModel(pub i32);

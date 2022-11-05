@@ -1,7 +1,7 @@
 use serde::Serialize;
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize)]
-pub struct Member {
+pub struct User {
     pub id: i32,
     pub name: String,
     pub organization_id: OrganizationId,
@@ -11,6 +11,6 @@ pub struct Member {
 pub struct OrganizationId(pub i32);
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize)]
-pub struct Members {
-    pub users: Vec<Member>,
+pub struct Users {
+    pub users: Vec<User>,
 }

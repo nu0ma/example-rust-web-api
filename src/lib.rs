@@ -1,17 +1,17 @@
 pub mod rest {
-    pub mod member;
+    pub mod user;
 }
 
 pub mod usecase {
-    pub mod member;
+    pub mod user;
 }
 
 pub mod gateway {
-    pub mod member;
+    pub mod user;
 }
 
 pub mod port {
-    pub mod member;
+    pub mod user;
 }
 
 pub mod driver {
@@ -20,7 +20,7 @@ pub mod driver {
 }
 
 pub mod domain {
-    pub mod member;
+    pub mod user;
 }
 
 pub mod utils {
