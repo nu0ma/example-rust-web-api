@@ -13,3 +13,5 @@ CREATE TABLE users (
 
 
 INSERT INTO organization VALUES (1, 'test');
+
+INSERT into users values (1, 'test_user',1);

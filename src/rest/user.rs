@@ -37,10 +37,8 @@ pub async fn add_user(info: web::Json<Info>) -> impl Responder {
     )
     .await;
 
-    println!("res {:?}", response);
-
     match response {
         Ok(res) => HttpResponse::Ok().json(res),
-        Err(err) => HttpResponse::Ok().body(err.to_string()),
+        Err(e) => HttpResponse::Ok().body(e.to_string()),
     }
 }
