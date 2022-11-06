@@ -3,13 +3,13 @@ use anyhow::Ok;
 use crate::{
     domain::user::{OrganizationId, User, Users},
     driver::{self, db_driver},
-    port::user::MemberPort,
+    port::user::UserPort,
 };
 
 pub struct UserGateway;
 
 #[async_trait::async_trait]
-impl MemberPort for UserGateway {
+impl UserPort for UserGateway {
     async fn get_users_for_id(&self, organization_id: OrganizationId) -> anyhow::Result<Users> {
         let response = driver::db_driver::find_users_for_organization_id(organization_id.0).await?;
 
@@ -32,6 +32,9 @@ impl MemberPort for UserGateway {
             name: response.name,
             organization_id: OrganizationId(response.organization_id),
         })
+    }
+    async fn update_user(&self, id: i32) -> anyhow::Result<()> {
+        todo!()
     }
 }
 
@@ -129,4 +132,7 @@ mod test {
 
         assert_eq!(expected, actual);
     }
+
+    #[tokio::test]
+    fn test_update_user() {}
 }

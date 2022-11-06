@@ -1,18 +1,22 @@
 use crate::{
     domain::user::{OrganizationId, User, Users},
-    port::user::MemberPort,
+    port::user::UserPort,
 };
 
-pub async fn get_users(id: OrganizationId, port: impl MemberPort) -> anyhow::Result<Users> {
+pub async fn get_users(id: OrganizationId, port: impl UserPort) -> anyhow::Result<Users> {
     port.get_users_for_id(id).await
 }
 
 pub async fn add_user(
     name: String,
     organization_name: String,
-    port: impl MemberPort,
+    port: impl UserPort,
 ) -> anyhow::Result<User> {
     port.add_user(name, organization_name).await
+}
+
+pub async fn update_user(id: i32, port: impl UserPort) -> anyhow::Result<()> {
+    port.update_user(id).await
 }
 
 #[cfg(test)]
@@ -21,7 +25,7 @@ mod test {
 
     use crate::{
         domain::user::{OrganizationId, User},
-        port::user::MockMemberPort,
+        port::user::MockUserPort,
     };
 
     use super::*;
@@ -32,7 +36,7 @@ mod test {
 
         let id = OrganizationId(22);
 
-        let mut member_port = MockMemberPort::default();
+        let mut member_port = MockUserPort::default();
         member_port
             .mock_get_users_for_id(id.clone())
             .returns_with(|_| Ok(Users { users: vec![] }));
@@ -50,8 +54,8 @@ mod test {
             organization_id: OrganizationId(1),
         };
 
-        let mut member_port = MockMemberPort::default();
-        member_port
+        let mut user_port = MockUserPort::default();
+        user_port
             .mock_add_user(
                 "created_user".to_string(),
                 "test_organization_name".to_string(),
@@ -67,10 +71,24 @@ mod test {
         let actual = add_user(
             "created_user".to_string(),
             "test_organization_name".to_string(),
-            member_port,
+            user_port,
         )
         .await
         .unwrap();
+
+        assert_eq!(expected, actual);
+    }
+
+    #[tokio::test]
+    async fn test_update_user() {
+        let id = 1;
+
+        let mut user_port = MockUserPort::default();
+
+        user_port.mock_update_user(id).returns_with(|_| Ok(()));
+
+        let expected = Ok(()).unwrap();
+        let actual = update_user(id, user_port).await.unwrap();
 
         assert_eq!(expected, actual);
     }

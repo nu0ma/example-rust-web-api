@@ -1,4 +1,4 @@
-use actix_web::{get, post, web, HttpResponse, Responder};
+use actix_web::{get, post, put, web, HttpResponse, Responder};
 use serde::Deserialize;
 
 use crate::{
@@ -41,4 +41,16 @@ pub async fn add_user(info: web::Json<Info>) -> impl Responder {
         Ok(res) => HttpResponse::Ok().json(res),
         Err(e) => HttpResponse::Ok().body(e.to_string()),
     }
+}
+
+#[put("v1/user/{id}")]
+pub async fn update_user() -> impl Responder {
+    HttpResponse::Ok().body("e")
+}
+
+#[cfg(test)]
+mod test {
+
+    #[tokio::test]
+    fn test_get_users() {}
 }
