@@ -43,14 +43,19 @@ pub async fn add_user(info: web::Json<Info>) -> impl Responder {
     }
 }
 
-#[put("v1/user/{id}")]
-pub async fn update_user() -> impl Responder {
-    HttpResponse::Ok().body("e")
+#[derive(Deserialize, Clone)]
+pub struct NewName {
+    name: String,
 }
 
-#[cfg(test)]
-mod test {
-
-    #[tokio::test]
-    fn test_get_users() {}
+#[put("v1/user/{id}")]
+pub async fn update_user(id: web::Path<i32>, new_name: web::Json<NewName>) -> impl Responder {
+    let response = usecase::user::update_user(id.clone(), new_name.name.clone(), UserGateway).await;
+    match response {
+        Ok(()) => HttpResponse::Ok().finish(),
+        Err(e) => {
+            eprintln!("{}", e);
+            HttpResponse::InternalServerError().finish()
+        }
+    }
 }

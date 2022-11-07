@@ -44,3 +44,15 @@ pub async fn add_user(name: String, organization_name: String) -> Result<(Member
 
     Ok(row)
 }
+
+#[mry::mry]
+pub async fn update_user(id: i32, name: String) -> Result<()> {
+    let sql = "update users set name = $1 where id = $2";
+
+    sqlx::query(sql)
+        .bind(name.clone())
+        .bind(id)
+        .execute(DB_POOL.get().unwrap())
+        .await?;
+    Ok(())
+}

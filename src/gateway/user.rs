@@ -33,8 +33,9 @@ impl UserPort for UserGateway {
             organization_id: OrganizationId(response.organization_id),
         })
     }
-    async fn update_user(&self, id: i32) -> anyhow::Result<()> {
-        todo!()
+
+    async fn update_user(&self, id: i32, name: String) -> anyhow::Result<()> {
+        Ok(db_driver::update_user(id, name).await?)
     }
 }
 
@@ -44,7 +45,9 @@ mod test {
         domain::user::{OrganizationId, User, Users},
         driver::{
             self,
-            db_driver::{self, mock_add_user, mock_find_users_for_organization_id},
+            db_driver::{
+                self, mock_add_user, mock_find_users_for_organization_id, mock_update_user,
+            },
             model::MemberModel,
         },
     };
@@ -134,5 +137,16 @@ mod test {
     }
 
     #[tokio::test]
-    fn test_update_user() {}
+    #[mry::lock(db_driver::update_user)]
+    async fn test_update_user() {
+        let id = 1;
+        let name = "updated".to_string();
+        let expected = Ok(()).unwrap();
+
+        mock_update_user(id, name.clone()).returns_with(|_, _| Ok(()));
+
+        let actual = UserGateway.update_user(id, name).await.unwrap();
+
+        assert_eq!(expected, actual);
+    }
 }

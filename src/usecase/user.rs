@@ -15,8 +15,8 @@ pub async fn add_user(
     port.add_user(name, organization_name).await
 }
 
-pub async fn update_user(id: i32, port: impl UserPort) -> anyhow::Result<()> {
-    port.update_user(id).await
+pub async fn update_user(id: i32, name: String, port: impl UserPort) -> anyhow::Result<()> {
+    port.update_user(id, name).await
 }
 
 #[cfg(test)]
@@ -82,13 +82,16 @@ mod test {
     #[tokio::test]
     async fn test_update_user() {
         let id = 1;
+        let name = "updated".to_string();
 
         let mut user_port = MockUserPort::default();
 
-        user_port.mock_update_user(id).returns_with(|_| Ok(()));
+        user_port
+            .mock_update_user(id, name.clone())
+            .returns_with(|_, _| Ok(()));
 
         let expected = Ok(()).unwrap();
-        let actual = update_user(id, user_port).await.unwrap();
+        let actual = update_user(id, name, user_port).await.unwrap();
 
         assert_eq!(expected, actual);
     }
