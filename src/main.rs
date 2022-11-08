@@ -1,6 +1,6 @@
 use actix_web::{App, HttpServer};
 use app::{
-    rest::user::{add_user, get_users, update_user},
+    rest::user::{add_user, delete_user, get_users, update_user},
     utils::{log::set_log, set_db::set_db},
 };
 
@@ -14,6 +14,7 @@ async fn main() -> std::io::Result<()> {
             .service(get_users)
             .service(add_user)
             .service(update_user)
+            .service(delete_user)
     })
     .bind(("0.0.0.0", 8085))?
     .run()

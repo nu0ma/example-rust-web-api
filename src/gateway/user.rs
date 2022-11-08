@@ -37,6 +37,10 @@ impl UserPort for UserGateway {
     async fn update_user(&self, id: i32, name: String) -> anyhow::Result<()> {
         Ok(db_driver::update_user(id, name).await?)
     }
+
+    async fn delete_user(&self, id: i32) -> anyhow::Result<()> {
+        Ok(db_driver::delete_user(id).await?)
+    }
 }
 
 #[cfg(test)]
@@ -46,7 +50,8 @@ mod test {
         driver::{
             self,
             db_driver::{
-                self, mock_add_user, mock_find_users_for_organization_id, mock_update_user,
+                self, mock_add_user, mock_delete_user, mock_find_users_for_organization_id,
+                mock_update_user,
             },
             model::MemberModel,
         },
@@ -147,6 +152,18 @@ mod test {
 
         let actual = UserGateway.update_user(id, name).await.unwrap();
 
+        assert_eq!(expected, actual);
+    }
+
+    #[tokio::test]
+    #[mry::lock(db_driver::delete_user)]
+    async fn test_delete_user() {
+        let id = 1;
+        let expected = Ok(()).unwrap();
+
+        mock_delete_user(id.clone()).returns_with(|_| Ok(()));
+
+        let actual = UserGateway.delete_user(id).await.unwrap();
         assert_eq!(expected, actual);
     }
 }

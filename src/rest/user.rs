@@ -1,4 +1,4 @@
-use actix_web::{get, post, put, web, HttpResponse, Responder};
+use actix_web::{delete, get, post, put, web, HttpResponse, Responder};
 use serde::Deserialize;
 
 use crate::{
@@ -18,7 +18,7 @@ pub async fn get_users(path: web::Path<PathParameter>) -> impl Responder {
     let response = usecase::user::get_users(OrganizationId(organization_id), UserGateway).await;
     match response {
         Ok(res) => HttpResponse::Ok().json(res),
-        Err(_) => HttpResponse::Ok().body("Error"),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
 
@@ -39,7 +39,7 @@ pub async fn add_user(info: web::Json<Info>) -> impl Responder {
 
     match response {
         Ok(res) => HttpResponse::Ok().json(res),
-        Err(e) => HttpResponse::Ok().body(e.to_string()),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }
 
@@ -57,5 +57,19 @@ pub async fn update_user(id: web::Path<i32>, new_name: web::Json<NewName>) -> im
             eprintln!("{}", e);
             HttpResponse::InternalServerError().finish()
         }
+    }
+}
+
+#[derive(Deserialize, Clone)]
+struct UserId {
+    id: i32,
+}
+#[delete("v1/user/{id}")]
+pub async fn delete_user(id: web::Path<UserId>) -> impl Responder {
+    let response = usecase::user::delete_user(id.id, UserGateway).await;
+
+    match response {
+        Ok(()) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::InternalServerError().finish(),
     }
 }

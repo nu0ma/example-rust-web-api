@@ -1,3 +1,5 @@
+use std::any;
+
 use crate::{
     domain::user::{OrganizationId, User, Users},
     port::user::UserPort,
@@ -17,6 +19,10 @@ pub async fn add_user(
 
 pub async fn update_user(id: i32, name: String, port: impl UserPort) -> anyhow::Result<()> {
     port.update_user(id, name).await
+}
+
+pub async fn delete_user(id: i32, port: impl UserPort) -> anyhow::Result<()> {
+    port.delete_user(id).await
 }
 
 #[cfg(test)]
@@ -92,6 +98,22 @@ mod test {
 
         let expected = Ok(()).unwrap();
         let actual = update_user(id, name, user_port).await.unwrap();
+
+        assert_eq!(expected, actual);
+    }
+
+    #[tokio::test]
+    async fn test_delete_user() {
+        let id = 1;
+
+        let mut user_port = MockUserPort::default();
+
+        user_port
+            .mock_delete_user(id.clone())
+            .returns_with(move |_| Ok(()));
+
+        let expected = Ok(()).unwrap();
+        let actual = delete_user(id, user_port).await.unwrap();
 
         assert_eq!(expected, actual);
     }

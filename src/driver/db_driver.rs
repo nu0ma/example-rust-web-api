@@ -19,7 +19,7 @@ pub async fn find_users_for_organization_id(
 }
 
 #[mry::mry]
-pub async fn add_user(name: String, organization_name: String) -> Result<(MemberModel)> {
+pub async fn add_user(name: String, organization_name: String) -> Result<MemberModel> {
     let organization_sql = "select id from organization where name = $1";
 
     let organization = sqlx::query_as::<_, OrganizationIdModel>(organization_sql)
@@ -52,6 +52,17 @@ pub async fn update_user(id: i32, name: String) -> Result<()> {
     sqlx::query(sql)
         .bind(name.clone())
         .bind(id)
+        .execute(DB_POOL.get().unwrap())
+        .await?;
+    Ok(())
+}
+
+#[mry::mry]
+pub async fn delete_user(id: i32) -> Result<()> {
+    let sql = "delete from users where id = $1";
+
+    sqlx::query(sql)
+        .bind(id.clone())
         .execute(DB_POOL.get().unwrap())
         .await?;
     Ok(())
