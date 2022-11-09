@@ -235,6 +235,7 @@ dependencies = [
  "actix-web",
  "anyhow",
  "async-trait",
+ "connection_pool",
  "envy",
  "mry",
  "once_cell",
@@ -243,6 +244,7 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
+ "user",
 ]
 
 [[package]]
@@ -365,6 +367,23 @@ name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+
+[[package]]
+name = "connection_pool"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "anyhow",
+ "async-trait",
+ "envy",
+ "mry",
+ "once_cell",
+ "serde",
+ "sqlx",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
 
 [[package]]
 name = "convert_case"
@@ -1800,6 +1819,24 @@ dependencies = [
  "form_urlencoded",
  "idna",
  "percent-encoding",
+]
+
+[[package]]
+name = "user"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "anyhow",
+ "async-trait",
+ "connection_pool",
+ "envy",
+ "mry",
+ "once_cell",
+ "serde",
+ "sqlx",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

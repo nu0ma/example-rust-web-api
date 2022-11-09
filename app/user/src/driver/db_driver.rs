@@ -1,10 +1,8 @@
 use anyhow::{Ok, Result};
-use tracing::log::info;
 
-use crate::utils::connection_pool::DB_POOL;
+use connection_pool::DB_POOL;
 
 use super::model::{MemberModel, OrganizationIdModel};
-
 #[mry::mry]
 pub async fn find_users_for_organization_id(
     organization_id: i32,

@@ -62,7 +62,7 @@ pub async fn update_user(id: web::Path<i32>, new_name: web::Json<NewName>) -> im
 
 #[derive(Deserialize, Clone)]
 struct UserId {
-    id: i32,
+    pub id: i32,
 }
 #[delete("v1/user/{id}")]
 pub async fn delete_user(id: web::Path<UserId>) -> impl Responder {
