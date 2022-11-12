@@ -233,18 +233,11 @@ name = "app"
 version = "0.1.0"
 dependencies = [
  "actix-web",
- "anyhow",
- "async-trait",
  "connection_pool",
- "envy",
- "mry",
- "once_cell",
- "serde",
- "sqlx",
- "tokio",
  "tracing",
  "tracing-subscriber",
  "user",
+ "uuid",
 ]
 
 [[package]]
@@ -372,17 +365,11 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 name = "connection_pool"
 version = "0.1.0"
 dependencies = [
- "actix-web",
  "anyhow",
- "async-trait",
  "envy",
- "mry",
  "once_cell",
  "serde",
  "sqlx",
- "tokio",
- "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -1837,6 +1824,15 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "uuid"
+version = "1.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "feb41e78f93363bb2df8b0e86a2ca30eed7806ea16ea0c790d757cf93f79be83"
+dependencies = [
+ "getrandom",
 ]
 
 [[package]]

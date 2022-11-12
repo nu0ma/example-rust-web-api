@@ -53,7 +53,7 @@ mod test {
                 self, mock_add_user, mock_delete_user, mock_find_users_for_organization_id,
                 mock_update_user,
             },
-            model::MemberModel,
+            model::UserModel,
         },
     };
 
@@ -86,17 +86,17 @@ mod test {
 
         mock_find_users_for_organization_id(organization_id.0.clone()).returns_with(move |_| {
             Ok(vec![
-                MemberModel {
+                UserModel {
                     id: 1,
                     name: "john".to_string(),
                     organization_id: 1,
                 },
-                MemberModel {
+                UserModel {
                     id: 2,
                     name: "andy".to_string(),
                     organization_id: 1,
                 },
-                MemberModel {
+                UserModel {
                     id: 3,
                     name: "numa".to_string(),
                     organization_id: 1,
@@ -123,7 +123,7 @@ mod test {
             "test_organization_name".to_string(),
         )
         .returns_with(|_, _| {
-            Ok(MemberModel {
+            Ok(UserModel {
                 id: 1,
                 name: "test_user".to_string(),
                 organization_id: 1,

@@ -2,14 +2,14 @@ use anyhow::{Ok, Result};
 
 use connection_pool::DB_POOL;
 
-use super::model::{MemberModel, OrganizationIdModel};
+use super::model::{OrganizationIdModel, UserModel};
 #[mry::mry]
 pub async fn find_users_for_organization_id(
     organization_id: i32,
-) -> anyhow::Result<Vec<MemberModel>> {
+) -> anyhow::Result<Vec<UserModel>> {
     let sql = "select * from users where organization_id = $1";
 
-    let rows = sqlx::query_as::<_, MemberModel>(sql)
+    let rows = sqlx::query_as::<_, UserModel>(sql)
         .bind(organization_id)
         .fetch_all(DB_POOL.get().unwrap())
         .await?;
@@ -17,7 +17,7 @@ pub async fn find_users_for_organization_id(
 }
 
 #[mry::mry]
-pub async fn add_user(name: String, organization_name: String) -> Result<MemberModel> {
+pub async fn add_user(name: String, organization_name: String) -> Result<UserModel> {
     let organization_sql = "select id from organization where name = $1";
 
     let organization = sqlx::query_as::<_, OrganizationIdModel>(organization_sql)
@@ -35,7 +35,7 @@ pub async fn add_user(name: String, organization_name: String) -> Result<MemberM
 
     let get_sql = "select * from users where name = $1";
 
-    let row = sqlx::query_as::<_, MemberModel>(get_sql)
+    let row = sqlx::query_as::<_, UserModel>(get_sql)
         .bind(name.clone())
         .fetch_one(DB_POOL.get().unwrap())
         .await?;
