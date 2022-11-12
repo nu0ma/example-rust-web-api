@@ -1,14 +1,20 @@
+# Simple Rust Web API Example
+
 ## Setup
 
-- cd db
-- ./build_and_run.sh
+```
+# run db
+cd db
+./build_and_run.sh
 
-- cd app
-- ./run.sh
+# run app
+cd app
+./run.sh
+```
 
 ## Test
 
-- cargo test
+`cargo test`
 
 ## Example
 
